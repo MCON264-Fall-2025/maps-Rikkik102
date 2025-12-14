@@ -1,6 +1,9 @@
 package hashmap_exercises;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * LeetCode 2260 - Minimum Consecutive Cards to Pick Up
  *
@@ -29,6 +32,20 @@ public class MinimumConsecutiveCards {
         //     if cardValue was seen at j, update answer with (i - j + 1)
         //     then update lastIndexSeen for this cardValue to i
         // - If you never update the answer, return -1
-        return -1;
+        Map<Integer, Integer> lastSeen = new HashMap<>();
+        int answer = Integer.MAX_VALUE;
+
+        for (int i = 0; i < cards.length; i++) {
+            int card = cards[i];
+
+            if (lastSeen.containsKey(card)) {
+                int j = lastSeen.get(card);
+                answer = Math.min(answer, i - j + 1);
+            }
+
+            lastSeen.put(card, i);
+        }
+
+        return answer == Integer.MAX_VALUE ? -1 : answer;
     }
 }
